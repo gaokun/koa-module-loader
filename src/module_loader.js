@@ -111,12 +111,15 @@ module.exports = (middlewares, router) => {
   walker.on('directories', (root, dirStatsArray, next) => {
     dirStatsArray.forEach((dir) => {
       const url = `${root + dir.name}/${dir.name}`;
-      console.info(`load module: ${dir.name}`);
       const conf = LoadModule(`${url}.conf.json`);
       const controller = LoadModule(`${url}.controller.js`);
       if (root !== (rootPath + '/module/api/')) {
         // module 下的子文件夹, 忽略, 目前只处理一层
-      } else if (conf && controller) {
+        next();
+        return;
+      }
+      console.info(`load module: ${dir.name}`);
+      if (conf && controller) {
         try {
           configs.push(`Module: [${dir.name}]`);
           configs = configs.concat(conf.route);
@@ -127,7 +130,7 @@ module.exports = (middlewares, router) => {
           console.error(err, `file = ${dir.name}`);
         }
       } else {
-        // console.warn(`Require '${dir.name}.conf.json' and '${dir.name}.controller.js' in module [${dir.name}]`);
+        console.log(`Require '${dir.name}.conf.json' and '${dir.name}.controller.js' in module [${dir.name}]`);
       }
     });
   });
