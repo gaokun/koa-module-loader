@@ -114,7 +114,9 @@ module.exports = (middlewares, router) => {
       console.info(`load module: ${dir.name}`);
       const conf = LoadModule(`${url}.conf.json`);
       const controller = LoadModule(`${url}.controller.js`);
-      if (conf && controller) {
+      if (root !== (rootPath + '/module/api/')) {
+        // module 下的子文件夹, 忽略, 目前只处理一层
+      } else if (conf && controller) {
         try {
           configs.push(`Module: [${dir.name}]`);
           configs = configs.concat(conf.route);
