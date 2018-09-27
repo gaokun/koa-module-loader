@@ -125,7 +125,7 @@ module.exports = (middlewares, router) => {
           console.error(err, `file = ${dir.name}`);
         }
       } else {
-        console.warn(`Require '${dir.name}.conf.json' and '${dir.name}.controller.js' in module [${dir.name}]`);
+        // console.warn(`Require '${dir.name}.conf.json' and '${dir.name}.controller.js' in module [${dir.name}]`);
       }
     });
   });

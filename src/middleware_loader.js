@@ -1,4 +1,3 @@
-/* eslint-disable import/no-dynamic-require */
 
 /**
  * @Author Ken
@@ -12,7 +11,6 @@
 const walk = require('walk');
 const path = require('path');
 const fs = require('fs');
-const Promise = require('bluebird');
 const rootPath = require('./root_path');
 
 function LoadModule(moduleName) {
