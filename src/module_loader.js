@@ -41,7 +41,7 @@ function bind(middlewares, moduleName, router, conf, controller) {
       throw new Error(`no 'route' found in route config, module = ${moduleName}`);
     }
 
-    const [method, pathTmp, middlewareFunc] = route.replace(/\s+/, ' ').split(' ');
+    const [method, pathTmp, middlewareFunc] = route.replace(/\s+/g, ' ').split(' ');
     if (!method || !pathTmp || !middlewareFunc || !METHODS.includes(method)) {
       throw new Error(`route config has wrong format, module = ${moduleName}`);
     }
