@@ -113,7 +113,7 @@ module.exports = (middlewares, router) => {
       const url = `${root + dir.name}/${dir.name}`;
       const conf = LoadModule(`${url}.conf.json`);
       const controller = LoadModule(`${url}.controller.js`);
-      if (root !== (rootPath + '/module/api/')) {
+      if (root !== path.join(rootPath, '/module/api/')) {
         // module 下的子文件夹, 忽略, 目前只处理一层
         next();
         return;
