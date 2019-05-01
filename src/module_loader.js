@@ -32,9 +32,13 @@ function GetValue(obj, attr) {
   return ret;
 }
 
-function bind(middlewares, moduleName, router, conf, controller) {
+function bind(option, middlewares, moduleName, router, conf, controller) {
   if (!conf.route) {
     throw new Error(`no "route" found in ${moduleName}.conf.json`);
+  }
+  // Ken 2019-05-02 01:16 支持module自定义prefix, 如:微信相关的接口
+  if (conf.prefix === undefined) {
+    conf.prefix = option.prefix || '';
   }
   conf.route.forEach((route) => {
     if (!route) {
@@ -52,7 +56,7 @@ function bind(middlewares, moduleName, router, conf, controller) {
       throw new Error(`no '${func}' found in controller, module = ${moduleName}`);
     }
 
-    const args = [pathTmp];
+    const args = [conf.prefix + pathTmp];
 
     // Ken 2018-09-26 16:04 有中间件再处理
     if (middlewareNames && middlewareNames.length > 0) {
@@ -92,7 +96,7 @@ function LoadModule(moduleName) {
   return fs.existsSync(moduleName) ? require(moduleName) : false;
 }
 
-module.exports = (middlewares, router) => {
+module.exports = (middlewares, router, option = {}) => {
   middlewares = middlewares || [];
   const walker = walk.walk(path.join(rootPath, '/module/api/'));
   let configs = [];
@@ -124,7 +128,7 @@ module.exports = (middlewares, router) => {
           configs.push(`Module: [${dir.name}]`);
           configs = configs.concat(conf.route);
           configs.push('---------------------');
-          bind(middlewares, dir.name, router, conf, controller);
+          bind(option, middlewares, dir.name, router, conf, controller);
           next();
         } catch (err) {
           console.error(err, `file = ${dir.name}`);

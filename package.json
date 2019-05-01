@@ -1,6 +1,6 @@
 {
   "name": "koa-module-loader",
-  "version": "1.1.4",
+  "version": "1.2.0",
   "description": "a plugin for koa2 to load module",
   "keywords": ["koa2", "module", "loader", "middleware", "api doc"],
   "main": "index.js",
